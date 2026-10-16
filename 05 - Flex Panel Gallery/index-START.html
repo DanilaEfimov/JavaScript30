@@ -27,6 +27,7 @@
     .panels {
       min-height: 100vh;
       overflow: hidden;
+      display: flex;
     }
 
     .panel {
@@ -44,6 +45,11 @@
       font-size: 20px;
       background-size: cover;
       background-position: center;
+      flex: 1;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
     }
 
     .panel1 { background-image: url(https://images.unsplash.com/photo-1443891238287-325a8fddd0f7?w=1500&h=1500); }
@@ -106,10 +112,24 @@
   </div>
 
   <script>
+    const panels = document.querySelectorAll(`.panels`);
+
+    function toggleOpen() {
+      console.log(`おやすみなさい`)
+      this.classList.toggle(`open`);
+    }
+
+    function toggleActive(e) {
+      console.log();
+      if(e.propertyName.includes(`flex`)) {
+        this.classList.toggle(`open-active`);
+      }
+    }
+
+    panels.forEach(panel => panel.addEventListener(`click`, toggleOpen));
+    panels.forEach(panel => panel.addEventListener(`transitioned`, toggleActive));
 
   </script>
-
-
 
 </body>
 </html>
