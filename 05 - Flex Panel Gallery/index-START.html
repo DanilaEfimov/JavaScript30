@@ -52,6 +52,10 @@
       flex-direction: column;
     }
 
+    .panel.open {
+      flex: 5;
+    }
+
     .panel1 { background-image: url(https://images.unsplash.com/photo-1443891238287-325a8fddd0f7?w=1500&h=1500); }
     .panel2 { background-image: url(https://cdn.pixabay.com/photo/2017/08/07/16/48/green-2605621_1280.jpg); }
     .panel3 { background-image: url(https://images.unsplash.com/photo-1465188162913-8fb5709d6d57?w=1500&h=1500); }
@@ -63,6 +67,23 @@
       margin: 0;
       width: 100%;
       transition: transform 0.5s;
+      flex: 1 0 auto;
+    }
+
+    .panel > *:first-child {
+      transform: translateY(-100%);
+    }
+
+    .panel.open-active > *:first-child {
+      transform: translateY(0);
+    }
+
+    .panel > *:last-child {
+      transform: translateY(+100%);
+    }
+
+    .panel.open-active > *:last-child {
+      transform: translateY(0);
     }
 
     .panel p {
@@ -112,22 +133,22 @@
   </div>
 
   <script>
-    const panels = document.querySelectorAll(`.panels`);
 
-    function toggleOpen() {
-      console.log(`おやすみなさい`)
-      this.classList.toggle(`open`);
-    }
+    const panels = document.querySelectorAll(`.panel`);
 
     function toggleActive(e) {
-      console.log();
+      console.log(e.propertyName);
       if(e.propertyName.includes(`flex`)) {
         this.classList.toggle(`open-active`);
       }
     }
 
+    function toggleOpen() {
+      this.classList.toggle(`open`);
+    }
+
     panels.forEach(panel => panel.addEventListener(`click`, toggleOpen));
-    panels.forEach(panel => panel.addEventListener(`transitioned`, toggleActive));
+    panels.forEach(panel => panel.addEventListener(`transitionend`, toggleActive));
 
   </script>
 
