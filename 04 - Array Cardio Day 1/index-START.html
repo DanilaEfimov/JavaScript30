@@ -64,21 +64,54 @@
       const bYears = b.passed - b.year;
       return aYears > bYears ? -1 : 1;
     });
-    console.table(oldest);
 
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
-    const category = document.querySelector(`.mw-category`);
-    const links = Aray.from(category.querySelectorAll(`a`));
-    const de = links.map(limk => link.textContent);
 
+    // const category = document.querySelector(`.mw-category`);
+    // [...] is synonym of Array.from()
+    // const links = [...category.querySelectorAll(`a`)]
+    // const de = links
+    //          .map(link => link.textContent)
+    //          .filter(text => text.toLowerCase().includes(`de`));
+
+    // console.table(de);
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
+    const separator = `, `;
+    const alpha = people.sort(function(a, b) {
+        const [aLast, aFirst] = a.split(separator);
+        const [bLast, bFirst] = b.split(separator);
+        return aLast > bLast ? 1 : -1;
+    });
+
+    // also here may be used lambda syntax:
+    //     const alpha = people.sort((a, b) => {
+    //     const [aLast, aFirst] = a.split(separator);
+    //     const [bLast, bFirst] = b.split(separator);
+    //     return aLast > bLast ? 1 : -1;
+    // });
+
+    console.log(alpha);
 
     // 8. Reduce Exercise
     // Sum up the instances of each of these
-    const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+    const data = ['car', 'car', 'truck', 'truck', 'bike', 
+                  'walk', 'car', 'van', 'bike', 'walk', 
+                  'car', 'van', 'car', 'truck', `bogo stick` ];
+    const transportation = data.reduce((counter, transport) => {
+      if(!counter[transport]){
+        counter[transport] = 0;
+      }
+      counter[transport]++;
+      return counter;
+    }, {});
+    
+    console.log(transportation);
+    
+    const unique = Object.keys(transportation);
+    console.log(`unique values: ${Array.from(unique)}`);
 
   </script>
 </body>
