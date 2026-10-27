@@ -97,6 +97,42 @@
   </div>
 
 <script>
+
+  let waitingForSecond = false;
+  let lastChecked;
+
+  function handleCheck(e) {
+    let firstChecked = checkboxes.findIndex(box => box === this);
+    console.log(`${firstChecked}`);
+    if(waitingForSecond) {
+      [firstChecked, lastChecked] = [Math.min(firstChecked, lastChecked), 
+                                     Math.max(firstChecked, lastChecked)];
+      // ! same with:
+      // const [m, M] = [Math.min(firstChecked, lastChecked), Math.max(firstChecked, lastChecked)];
+      // [firstChecked, lastChecked] = [m, M];
+      // the left side assigned only after rights evaluating
+    }
+    else {
+      lastChecked = checkboxes.findIndex(box => box === this);
+      waitingForSecond = true;
+      return;
+    }
+
+    checkboxes.forEach(checkbox => {
+      const idx = checkboxes.findIndex(box => box === checkbox);
+      if(firstChecked <= idx && idx <= lastChecked)
+        checkbox.checked = true;
+    })
+    waitingForSecond = false;
+  };
+
+  const checkboxes = Array.from(document.querySelectorAll(`.inbox input[type=checkbox]`));
+  checkboxes.forEach(checkbox => checkbox.addEventListener(`click`, handleCheck));
+
+  // in the video was used interesting move with a trigger
+  // kinda it's going and checking the entiring the special "inbetween" area
+  // by the condition in the 123'd line
+
 </script>
 </body>
 </html>
