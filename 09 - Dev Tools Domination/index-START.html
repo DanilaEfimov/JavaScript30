@@ -8,6 +8,7 @@
 <body>
 
   <p onClick="makeGreen()">×BREAK×DOWN×</p>
+  <p onclick="makeRandom(this)">xCHECKxTHExTRIGGERxFEATUREx</p>
 
   <script>
     const dogs = [{ name: 'Snickers', age: 2 }, { name: 'hugo', age: 8 }];
@@ -18,29 +19,84 @@
       p.style.fontSize = '50px';
     }
 
+    const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min; 
+    const getRandomColor = () => {
+      const randomNum = Math.floor(Math.random() * 0xFFFFFF);
+      return `#` + randomNum.toString(16).padStart(6, `0`);
+    };
+    // another way to generate a random color
+    const getRandomRgb = () => {
+      const r = getRandomInt(0, 255);
+      const g = getRandomInt(0, 255);
+      const b = getRandomInt(0, 255);
+
+      return `rgb(${r}, ${g}, ${b})`;
+    };
+
+    function makeRandom(element) {
+      const caller = element;
+      element.style.color = getRandomRgb();
+      element.style.fontSize = `${getRandomInt(10, 50)}px`;
+    }
+
+    // output formatting features
     // Regular
+    console.log(`Hello, World!`);
 
     // Interpolated
+    console.log(`Hello, I'm a %s string`, `c-styled parametered string`);
 
     // Styled
+    console.log(`%c I'm a styled string`, `font-size: 67px; background: red; text-shadow: 10px 10px 0 blue`);
 
     // warning!
+    console.warn(`OH, NOOO, stack overflowed...`);
 
     // Error :|
+    console.error(`FCK, bro, what's wrong with your js skills!?`);
 
     // Info
+    console.info(`[${(new Date())}]: google repo fetched`);
 
     // Testing
+    const allP = document.querySelectorAll(`p`);
+    console.assert(allP.length === 1, `hm, one extra paragraph`);
 
     // clearing
+    console.clear();
 
     // Viewing DOM Elements
+    console.log(allP);
+    console.dir(allP); // verbose: properties, childs, elements
+    console.clear();
 
     // Grouping together
+    dogs.forEach(dog => {
+      console.groupCollapsed(`${dog.name}`);
+      console.log(`this is a dog named ${dog.name}`);
+      console.log(`${dog.name} is ${dog.age} years old`);
+      console.log(`it's ${dog.age * 7} dogs years`);
+      console.groupEnd();
+    });
 
     // counting
+    console.count(`Danila`);
+    console.count(`Danila`);
+    console.count(`Danila`);
+    console.count(`Danila`);
+    console.count(`Danila`);
 
     // timing
+    console.time(`fetching data`);
+    fetch(`https://api.github.com/users/DanilaEfimov`)
+      .then(data => data.json())
+      .then(data => {
+        console.timeEnd(`fetching data`);
+        console.log(data);
+      });
+
+  // table
+  console.table(dogs);
 
   </script>
 </body>
